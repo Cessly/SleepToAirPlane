@@ -11,6 +11,9 @@ extern "C" {
 #pragma comment(lib, "Powrprof.lib")
 
 
+bool disableSuspendAC = false;
+bool disableResumeAC = false;
+
 static GUID const CLSID_RadioManagementAPI = { 0x581333f6, 0x28db, 0x41be, { 0xbc, 0x7a, 0xff, 0x20, 0x1f, 0x12, 0xf3, 0xf6 } };
 static GUID const CID_IRadioManager = { 0xdb3afbfb, 0x08e6, 0x46c6, { 0xaa, 0x70, 0xbf, 0x9a, 0x34, 0xc3, 0x0a, 0xb7 } };
 
@@ -60,15 +63,29 @@ ULONG CALLBACK DeviceNotifyCallbackRoutine(
     ULONG          Type,
     PVOID          Setting
 ) {
+    SYSTEM_POWER_STATUS sps;
+    bool isBattery = false;
+
+    if (GetSystemPowerStatus(&sps)) {
+        if (sps.ACLineStatus == 0) {
+            isBattery = true;
+        }
+    }
+    
+
     if (Type == PBT_APMRESUMEAUTOMATIC) {
-        // Resume
-        printf("AirPlane Disabled\n");
-        SetAirPlaneMode(true);
+        if (isBattery || !disableResumeAC) {
+            // Resume
+            printf("AirPlane Disabled\n");
+            SetAirPlaneMode(true);
+        }
     }
     if (Type == PBT_APMSUSPEND) {
-        // Suspend
-        printf("AirPlane Enabled\n");
-        SetAirPlaneMode(false);
+        if (isBattery || !disableSuspendAC) {
+            // Suspend
+            printf("AirPlane Enabled\n");
+            SetAirPlaneMode(false);
+        }
     }
 
     return 0;
@@ -86,6 +103,12 @@ int main(int argc, char* argv[]) {
         std::string str = argv[i];
         if (str == "h") {
             FreeConsole();
+        }
+        if (str == "DisableResumeAC") {
+            disableResumeAC = true;
+        }
+        if (str == "DisableSuspendAC") {
+            disableSuspendAC = true;
         }
     }
 
