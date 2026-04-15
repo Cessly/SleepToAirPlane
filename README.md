@@ -6,7 +6,7 @@ This turns off connectivity devices (Wi-Fi, Bluetooth, Cellular) while sleeping,
 
 To monitor standby energy consumption, the integrated Windows tool `powercfg /sleepstudy` may be used via PowerShell and CMD.
 
-Note: While using the program, certain functionalities of Modern Standby (such as background updates or notifications) will not work.
+> **_NOTE:_** While using the program, certain functionalities of Modern Standby (such as background updates or notifications) will not work.
 
 ## Utilization:
 Simply run the executable. A console window will appear, logging the program's actions.
