@@ -1,5 +1,5 @@
 # SleepToAirPlane
-SleepToAirplane is a simple program for Windows aiming at reducing battery drain while sleeping of laptops with Modern Standby (S0).
+SleepToAirplane is a simple program for Windows aiming at reducing battery drain while sleeping of laptops using Modern Standby (S0).
 To do so, it automatically enables Airplane mode when the system enters the standby state and disables it upon wake-up. 
 
 This turns off connectivity devices (Wi-Fi, Bluetooth, Cellular) while sleeping, which significantly reduces power consumption. If a laptop is frequently on Modern Standby mode while unplugged, this can achieve longer battery runtimes.
